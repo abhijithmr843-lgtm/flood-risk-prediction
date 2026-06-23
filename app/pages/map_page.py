@@ -1,141 +1,133 @@
 # app/pages/map_page.py
-# PURPOSE: Satellite map visualization page
+# PURPOSE: Advanced GIS flood risk map page
 
 import streamlit as st
-import folium
-from streamlit_folium import st_folium
 import sys
 import os
 
 sys.path.append(os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__)))))
 
+from src.visualization.map_generator import (
+    get_india_flood_risk_data,
+    create_full_flood_risk_map
+)
+from streamlit_folium import st_folium
+
 st.set_page_config(
-    page_title="Satellite Map",
-    page_icon="🗺️",
+    page_title="GIS Flood Risk Map",
+    page_icon="",
     layout="wide"
 )
 
-def create_flood_map(latitude, longitude, zoom=8):
-    """Create interactive flood risk map."""
-    
-    # Create base map
-    m = folium.Map(
-        location=[latitude, longitude],
-        zoom_start=zoom,
-        tiles='CartoDB positron'
-    )
-    
-    # Add satellite layer
-    folium.TileLayer(
-        tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-        attr='Esri',
-        name='Satellite View',
-        overlay=False
-    ).add_to(m)
-    
-    # Add marker for selected location
-    folium.Marker(
-        location=[latitude, longitude],
-        popup=folium.Popup(
-            f"<b>Selected Location</b><br>Lat: {latitude}<br>Lon: {longitude}",
-            max_width=200
-        ),
-        icon=folium.Icon(color='red', icon='info-sign')
-    ).add_to(m)
-    
-    # Add flood risk zones (sample circles)
-    flood_zones = [
-        (latitude + 0.1, longitude + 0.1, 'High Risk Zone', 'red'),
-        (latitude - 0.1, longitude + 0.2, 'Medium Risk Zone', 'orange'),
-        (latitude + 0.2, longitude - 0.1, 'Low Risk Zone', 'green'),
-    ]
-    
-    for lat, lon, label, color in flood_zones:
-        folium.Circle(
-            location=[lat, lon],
-            radius=5000,
-            color=color,
-            fill=True,
-            fill_opacity=0.3,
-            popup=label
-        ).add_to(m)
-    
-    # Add layer control
-    folium.LayerControl().add_to(m)
-    
-    return m
+st.markdown("""
+<style>
+.stApp {
+    background: linear-gradient(135deg, #0a1628 0%, #1a2f5e 50%, #0d1f3c 100%);
+    color: white;
+}
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #0d1f3c 0%, #1a2f5e 100%);
+}
+.section-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #4fc3f7;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+.district-card {
+    background: linear-gradient(135deg, #1a2f5e, #2a4a8a);
+    border: 1px solid #3a6abc;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+</style>
+""", unsafe_allow_html=True)
+
+@st.cache_resource
+def load_map():
+    """Load the GIS map (cached for performance)."""
+    return create_full_flood_risk_map()
 
 def main():
-    st.title("🗺️ Satellite Flood Risk Map")
-    st.markdown("Interactive map showing flood risk zones and satellite imagery.")
+    st.markdown(
+        "<div class='section-title' style='font-size:1.8rem'>"
+        "GIS FLOOD RISK MAP</div>",
+        unsafe_allow_html=True
+    )
+    st.caption("Interactive heatmap of flood-prone districts across India")
+    
     st.divider()
     
-    # Location selector
-    col1, col2 = st.columns([1, 2])
+    df = get_india_flood_risk_data()
+    
+    # Summary stats
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Districts Monitored", len(df))
+    col2.metric("Avg Risk Score", f"{df['risk_score'].mean():.1f}")
+    col3.metric("Highest Risk", df.loc[df['risk_score'].idxmax(), 'district'])
+    col4.metric("Total Population at Risk", f"{df['population_affected'].sum():,}")
+    
+    st.divider()
+    
+    col1, col2 = st.columns([3, 1])
     
     with col1:
-        st.subheader("📍 Select Location")
-        
-        # Preset locations
-        location = st.selectbox(
-            "Choose a city:",
-            [
-                "Chennai, Tamil Nadu",
-                "Mumbai, Maharashtra",
-                "Kolkata, West Bengal",
-                "Kerala Coast",
-                "Assam Valley",
-                "Custom Location"
-            ]
+        st.markdown(
+            "<div class='section-title'>Interactive Heatmap</div>",
+            unsafe_allow_html=True
         )
-        
-        # Location coordinates
-        locations = {
-            "Chennai, Tamil Nadu": (13.0827, 80.2707),
-            "Mumbai, Maharashtra": (19.0760, 72.8777),
-            "Kolkata, West Bengal": (22.5726, 88.3639),
-            "Kerala Coast": (10.8505, 76.2711),
-            "Assam Valley": (26.2006, 92.9376),
-        }
-        
-        if location == "Custom Location":
-            lat = st.number_input("Latitude", value=13.0827, format="%.4f")
-            lon = st.number_input("Longitude", value=80.2707, format="%.4f")
-        else:
-            lat, lon = locations[location]
-            st.info(f"📍 Lat: {lat}, Lon: {lon}")
-        
-        zoom = st.slider("Zoom Level", 5, 15, 8)
-        
-        st.divider()
-        
-        # Risk legend
-        st.subheader("🎨 Risk Legend")
-        st.markdown("🔴 High Risk Zone")
-        st.markdown("🟠 Medium Risk Zone")
-        st.markdown("🟢 Low Risk Zone")
-        st.markdown("📍 Selected Location")
-        
-        st.divider()
-        
-        # Satellite info
-        st.subheader("🛰️ Satellite Info")
-        st.info("""
-        **Data Source:** ESA Sentinel-2
-        **Resolution:** 10 meters
-        **Update:** Every 5 days
-        **Bands:** 13 spectral bands
-        """)
+        flood_map = load_map()
+        st_folium(flood_map, width=None, height=600, returned_objects=[])
     
     with col2:
-        st.subheader("🗺️ Interactive Map")
+        st.markdown(
+            "<div class='section-title'>Top 5 Risk Districts</div>",
+            unsafe_allow_html=True
+        )
         
-        # Create and display map
-        flood_map = create_flood_map(lat, lon, zoom)
-        st_folium(flood_map, width=800, height=600)
+        top5 = df.nlargest(5, 'risk_score')
         
-        st.caption("🌊 Red circles = High flood risk | Orange = Medium | Green = Low risk")
+        for _, row in top5.iterrows():
+            if row['risk_score'] >= 85:
+                color = '#f44336'
+            elif row['risk_score'] >= 75:
+                color = '#ff9800'
+            else:
+                color = '#4fc3f7'
+            
+            st.markdown(f"""
+            <div class='district-card'>
+                <div style='color:{color}; font-weight:bold; font-size:1rem'>
+                    {row['district']}
+                </div>
+                <div style='color:#90caf9; font-size:0.8rem'>
+                    {row['state']}
+                </div>
+                <div style='color:white; font-size:1.3rem; font-weight:bold; margin-top:5px'>
+                    {row['risk_score']}/100
+                </div>
+                <div style='color:#90caf9; font-size:0.75rem'>
+                    {row['population_affected']:,} people at risk
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+    
+    st.divider()
+    
+    # Full data table
+    with st.expander("View All District Data"):
+        display_df = df.sort_values('risk_score', ascending=False)
+        display_df.columns = ['District', 'State', 'Latitude', 'Longitude', 
+                                'Risk Score', 'Population Affected']
+        st.dataframe(
+            display_df,
+            use_container_width=True,
+            hide_index=True
+        )
 
 if __name__ == "__main__":
     main()

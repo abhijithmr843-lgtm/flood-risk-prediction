@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_6833884bc5678d6652fe92ab4709af68 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/gh/python-visualization/folium@main/folium/templates/leaflet_heat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
+</head>
+<body>
+    
+    
+    <div style="
+        position: fixed;
+        bottom: 50px;
+        left: 50px;
+        width: 180px;
+        background-color: rgba(13, 31, 60, 0.9);
+        border: 2px solid #4fc3f7;
+        border-radius: 10px;
+        z-index: 9999;
+        padding: 12px;
+        font-family: Arial;
+        color: white;
+        font-size: 12px;
+    ">
+        <b style="color: #4fc3f7">FLOOD RISK LEVELS</b><br><br>
+        <i style="background:#8B0000; width:12px; height:12px;
+                   display:inline-block; border-radius:50%"></i>
+        &nbsp; Extreme (85-100)<br>
+        <i style="background:#FF0000; width:12px; height:12px;
+                   display:inline-block; border-radius:50%"></i>
+        &nbsp; High (75-84)<br>
+        <i style="background:#FFA500; width:12px; height:12px;
+                   display:inline-block; border-radius:50%"></i>
+        &nbsp; Medium (65-74)<br>
+        <i style="background:#00FF00; width:12px; height:12px;
+                   display:inline-block; border-radius:50%"></i>
+        &nbsp; Low (0-64)<br>
+    </div>
+    
+    
+            <div class="folium-map" id="map_6833884bc5678d6652fe92ab4709af68" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_6833884bc5678d6652fe92ab4709af68 = L.map(
+                "map_6833884bc5678d6652fe92ab4709af68",
+                {
+                    center: [20.5937, 78.9629],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 5,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_6833884bc5678d6652fe92ab4709af68);
+
+            
+
+        
+    
+            var tile_layer_926ccddf4b6f1b3061f9c7fdfafe794a = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_926ccddf4b6f1b3061f9c7fdfafe794a.addTo(map_6833884bc5678d6652fe92ab4709af68);
+        
+    
+            var tile_layer_95d7942e98096d3ae4e23c1189458170 = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_95d7942e98096d3ae4e23c1189458170.addTo(map_6833884bc5678d6652fe92ab4709af68);
+        
+    
+            var tile_layer_32ea86a162b1c57a47af24147c93471d = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_32ea86a162b1c57a47af24147c93471d.addTo(map_6833884bc5678d6652fe92ab4709af68);
+        
+    
+            var tile_layer_8a41a1785511b7ba8366d33a99825da5 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Esri",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_8a41a1785511b7ba8366d33a99825da5.addTo(map_6833884bc5678d6652fe92ab4709af68);
+        
+    
+            var heat_map_fc656665b3532c738d4b000fb8d2f12d = L.heatLayer(
+                [[13.0827, 80.2707, 85], [19.076, 72.8777, 88], [22.5726, 88.3639, 82], [26.1445, 91.7362, 92], [9.9312, 76.2673, 87], [20.2961, 85.8245, 80], [25.5941, 85.1376, 78], [30.3165, 78.0322, 70], [21.1702, 72.8311, 75], [25.3176, 82.9739, 72], [20.4625, 85.883, 79], [17.385, 78.4867, 65], [26.8467, 80.9462, 68], [24.817, 93.9368, 84], [23.8315, 91.2868, 81], [25.5788, 91.8933, 86], [16.5062, 80.648, 74], [8.8932, 76.6141, 83], [10.5276, 76.2144, 80], [26.35, 92.684, 89]],
+                {
+  "minOpacity": 0.4,
+  "maxZoom": 10,
+  "radius": 35,
+  "blur": 25,
+  "gradient": {
+  "0.2": "blue",
+  "0.4": "lime",
+  "0.6": "yellow",
+  "0.8": "orange",
+  "1.0": "red",
+},
+}
+            );
+        
+    
+            heat_map_fc656665b3532c738d4b000fb8d2f12d.addTo(map_6833884bc5678d6652fe92ab4709af68);
+        
+    
+            var feature_group_3670e6b6fc29f35208ac7803ec938b4e = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_6da67ea2a1c9c99aaf9cf26442d25840 = L.circle(
+                [13.0827, 80.2707],
+                {"bubblingMouseEvents": true, "color": "#8B0000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8B0000", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 85000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_64bc79a276210235fed6a3d958d3915e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_51417e1d3a4acdf2ebf8961c329b98d7 = $(`<div id="html_51417e1d3a4acdf2ebf8961c329b98d7" style="width: 100.0%; height: 100.0%;">Chennai: 85% risk</div>`)[0];
+                popup_64bc79a276210235fed6a3d958d3915e.setContent(html_51417e1d3a4acdf2ebf8961c329b98d7);
+            
+        
+
+        circle_6da67ea2a1c9c99aaf9cf26442d25840.bindPopup(popup_64bc79a276210235fed6a3d958d3915e)
+        ;
+
+        
+    
+    
+            var circle_d370099242c063c9014ce2b4a7c796b9 = L.circle(
+                [19.076, 72.8777],
+                {"bubblingMouseEvents": true, "color": "#8B0000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8B0000", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 88000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_49391c056a9f2b58751a9338c089df5b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_18c14668aaec57486eb03c93994b55ae = $(`<div id="html_18c14668aaec57486eb03c93994b55ae" style="width: 100.0%; height: 100.0%;">Mumbai: 88% risk</div>`)[0];
+                popup_49391c056a9f2b58751a9338c089df5b.setContent(html_18c14668aaec57486eb03c93994b55ae);
+            
+        
+
+        circle_d370099242c063c9014ce2b4a7c796b9.bindPopup(popup_49391c056a9f2b58751a9338c089df5b)
+        ;
+
+        
+    
+    
+            var circle_f788c1b4fe6abe8d8210819dc0bf5ea6 = L.circle(
+                [22.5726, 88.3639],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF0000", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 82000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_53e38bb46543ae23c34b77753d9fefe0 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0f6e6433cdae88b72aef103043651661 = $(`<div id="html_0f6e6433cdae88b72aef103043651661" style="width: 100.0%; height: 100.0%;">Kolkata: 82% risk</div>`)[0];
+                popup_53e38bb46543ae23c34b77753d9fefe0.setContent(html_0f6e6433cdae88b72aef103043651661);
+            
+        
+
+        circle_f788c1b4fe6abe8d8210819dc0bf5ea6.bindPopup(popup_53e38bb46543ae23c34b77753d9fefe0)
+        ;
+
+        
+    
+    
+            var circle_13ff32a269c3805896cffd70befdc830 = L.circle(
+                [26.1445, 91.7362],
+                {"bubblingMouseEvents": true, "color": "#8B0000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8B0000", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 92000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_eeeee488a9e41aa791ebbd4058f12884 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e6c747c36be44fd4e590bc9553a32f91 = $(`<div id="html_e6c747c36be44fd4e590bc9553a32f91" style="width: 100.0%; height: 100.0%;">Guwahati: 92% risk</div>`)[0];
+                popup_eeeee488a9e41aa791ebbd4058f12884.setContent(html_e6c747c36be44fd4e590bc9553a32f91);
+            
+        
+
+        circle_13ff32a269c3805896cffd70befdc830.bindPopup(popup_eeeee488a9e41aa791ebbd4058f12884)
+        ;
+
+        
+    
+    
+            var circle_5fff29b70332ed6061c1b53b5abd441c = L.circle(
+                [9.9312, 76.2673],
+                {"bubblingMouseEvents": true, "color": "#8B0000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8B0000", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 87000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_3d472eaec5eae23d7de057f6aaf07030 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f7bbe82cf5633de2a5042fffec376ae3 = $(`<div id="html_f7bbe82cf5633de2a5042fffec376ae3" style="width: 100.0%; height: 100.0%;">Kochi: 87% risk</div>`)[0];
+                popup_3d472eaec5eae23d7de057f6aaf07030.setContent(html_f7bbe82cf5633de2a5042fffec376ae3);
+            
+        
+
+        circle_5fff29b70332ed6061c1b53b5abd441c.bindPopup(popup_3d472eaec5eae23d7de057f6aaf07030)
+        ;
+
+        
+    
+    
+            var circle_55bf89ca8d147b7292018c746785f5ce = L.circle(
+                [20.2961, 85.8245],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF0000", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 80000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_9af104bf94e6b0ca9cbaf4a308e42dee = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2cb1cc69c8c51ba02ac7dc83df31fbd5 = $(`<div id="html_2cb1cc69c8c51ba02ac7dc83df31fbd5" style="width: 100.0%; height: 100.0%;">Bhubaneswar: 80% risk</div>`)[0];
+                popup_9af104bf94e6b0ca9cbaf4a308e42dee.setContent(html_2cb1cc69c8c51ba02ac7dc83df31fbd5);
+            
+        
+
+        circle_55bf89ca8d147b7292018c746785f5ce.bindPopup(popup_9af104bf94e6b0ca9cbaf4a308e42dee)
+        ;
+
+        
+    
+    
+            var circle_b704e91987ae9ee6aa964c1f8f31ef78 = L.circle(
+                [25.5941, 85.1376],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF0000", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 78000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_6dd4e66f149dd45343e7fb4c0eff3fef = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1eefa9dd951725f7dce8dada7a117267 = $(`<div id="html_1eefa9dd951725f7dce8dada7a117267" style="width: 100.0%; height: 100.0%;">Patna: 78% risk</div>`)[0];
+                popup_6dd4e66f149dd45343e7fb4c0eff3fef.setContent(html_1eefa9dd951725f7dce8dada7a117267);
+            
+        
+
+        circle_b704e91987ae9ee6aa964c1f8f31ef78.bindPopup(popup_6dd4e66f149dd45343e7fb4c0eff3fef)
+        ;
+
+        
+    
+    
+            var circle_9e27b49a2257fcf92298e11489f83f8c = L.circle(
+                [30.3165, 78.0322],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFA500", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 70000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_05f1d843e3625b439b14884f83555dee = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5d4889e398af8d38a7245ae8c5dfa1ae = $(`<div id="html_5d4889e398af8d38a7245ae8c5dfa1ae" style="width: 100.0%; height: 100.0%;">Dehradun: 70% risk</div>`)[0];
+                popup_05f1d843e3625b439b14884f83555dee.setContent(html_5d4889e398af8d38a7245ae8c5dfa1ae);
+            
+        
+
+        circle_9e27b49a2257fcf92298e11489f83f8c.bindPopup(popup_05f1d843e3625b439b14884f83555dee)
+        ;
+
+        
+    
+    
+            var circle_98eb5049ba6f0e1265985a124541b02e = L.circle(
+                [21.1702, 72.8311],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF0000", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 75000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_0eb601ba7e729d55b3f36828d0f76d45 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1f139882f19372a721583521e2f75684 = $(`<div id="html_1f139882f19372a721583521e2f75684" style="width: 100.0%; height: 100.0%;">Surat: 75% risk</div>`)[0];
+                popup_0eb601ba7e729d55b3f36828d0f76d45.setContent(html_1f139882f19372a721583521e2f75684);
+            
+        
+
+        circle_98eb5049ba6f0e1265985a124541b02e.bindPopup(popup_0eb601ba7e729d55b3f36828d0f76d45)
+        ;
+
+        
+    
+    
+            var circle_a4035623fd9db9439a3a71ad1fdb8ed1 = L.circle(
+                [25.3176, 82.9739],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFA500", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 72000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_ecbfefad4fa5c65a5ad8fe6b21b48048 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2f6a2aad0858a68c8aa825b61d9598cc = $(`<div id="html_2f6a2aad0858a68c8aa825b61d9598cc" style="width: 100.0%; height: 100.0%;">Varanasi: 72% risk</div>`)[0];
+                popup_ecbfefad4fa5c65a5ad8fe6b21b48048.setContent(html_2f6a2aad0858a68c8aa825b61d9598cc);
+            
+        
+
+        circle_a4035623fd9db9439a3a71ad1fdb8ed1.bindPopup(popup_ecbfefad4fa5c65a5ad8fe6b21b48048)
+        ;
+
+        
+    
+    
+            var circle_21b35a04913f006709e474462352be56 = L.circle(
+                [20.4625, 85.883],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF0000", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 79000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_ec7dd94a21d0e8d26864f97e56ff00af = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e355aacc3921be2dce92d4775e54e48f = $(`<div id="html_e355aacc3921be2dce92d4775e54e48f" style="width: 100.0%; height: 100.0%;">Cuttack: 79% risk</div>`)[0];
+                popup_ec7dd94a21d0e8d26864f97e56ff00af.setContent(html_e355aacc3921be2dce92d4775e54e48f);
+            
+        
+
+        circle_21b35a04913f006709e474462352be56.bindPopup(popup_ec7dd94a21d0e8d26864f97e56ff00af)
+        ;
+
+        
+    
+    
+            var circle_e93a68f3db4ff3ee4860784445008b36 = L.circle(
+                [17.385, 78.4867],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFA500", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 65000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_603f418c0f76dd3778b10ed980869760 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bee9f124ea124540f4f72186853bc99d = $(`<div id="html_bee9f124ea124540f4f72186853bc99d" style="width: 100.0%; height: 100.0%;">Hyderabad: 65% risk</div>`)[0];
+                popup_603f418c0f76dd3778b10ed980869760.setContent(html_bee9f124ea124540f4f72186853bc99d);
+            
+        
+
+        circle_e93a68f3db4ff3ee4860784445008b36.bindPopup(popup_603f418c0f76dd3778b10ed980869760)
+        ;
+
+        
+    
+    
+            var circle_46a41ee1583ac13ddc387fe288f7a8f3 = L.circle(
+                [26.8467, 80.9462],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFA500", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 68000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_1c03f5ba259430d2dac57bc97716003d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fd3ee62efad90f29e901872bc57ccac7 = $(`<div id="html_fd3ee62efad90f29e901872bc57ccac7" style="width: 100.0%; height: 100.0%;">Lucknow: 68% risk</div>`)[0];
+                popup_1c03f5ba259430d2dac57bc97716003d.setContent(html_fd3ee62efad90f29e901872bc57ccac7);
+            
+        
+
+        circle_46a41ee1583ac13ddc387fe288f7a8f3.bindPopup(popup_1c03f5ba259430d2dac57bc97716003d)
+        ;
+
+        
+    
+    
+            var circle_bca08b276e0d575ebba68a1dc913b605 = L.circle(
+                [24.817, 93.9368],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF0000", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 84000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_72f08511772848a1d3f2515285d34e22 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_81912228850c6e7f9c7466bf722f0bb7 = $(`<div id="html_81912228850c6e7f9c7466bf722f0bb7" style="width: 100.0%; height: 100.0%;">Imphal: 84% risk</div>`)[0];
+                popup_72f08511772848a1d3f2515285d34e22.setContent(html_81912228850c6e7f9c7466bf722f0bb7);
+            
+        
+
+        circle_bca08b276e0d575ebba68a1dc913b605.bindPopup(popup_72f08511772848a1d3f2515285d34e22)
+        ;
+
+        
+    
+    
+            var circle_c861c44c72a932a2a0e3ff2e99b8cb1c = L.circle(
+                [23.8315, 91.2868],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF0000", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 81000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_3d6e2eacb03b3f0efc6397e00c90ae61 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1379839fed49780dc6461dec39bcce91 = $(`<div id="html_1379839fed49780dc6461dec39bcce91" style="width: 100.0%; height: 100.0%;">Agartala: 81% risk</div>`)[0];
+                popup_3d6e2eacb03b3f0efc6397e00c90ae61.setContent(html_1379839fed49780dc6461dec39bcce91);
+            
+        
+
+        circle_c861c44c72a932a2a0e3ff2e99b8cb1c.bindPopup(popup_3d6e2eacb03b3f0efc6397e00c90ae61)
+        ;
+
+        
+    
+    
+            var circle_c9f5a2c7b828cab80542bee031f34ec6 = L.circle(
+                [25.5788, 91.8933],
+                {"bubblingMouseEvents": true, "color": "#8B0000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8B0000", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 86000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_bb4be55877dc36f5ad3b7d3c00d3ab88 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7dfbd73c818e9ee2fd2906d386451666 = $(`<div id="html_7dfbd73c818e9ee2fd2906d386451666" style="width: 100.0%; height: 100.0%;">Shillong: 86% risk</div>`)[0];
+                popup_bb4be55877dc36f5ad3b7d3c00d3ab88.setContent(html_7dfbd73c818e9ee2fd2906d386451666);
+            
+        
+
+        circle_c9f5a2c7b828cab80542bee031f34ec6.bindPopup(popup_bb4be55877dc36f5ad3b7d3c00d3ab88)
+        ;
+
+        
+    
+    
+            var circle_f8cda0be47e7acb0b81358c47dc0675e = L.circle(
+                [16.5062, 80.648],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFA500", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 74000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_d416522e657471a13588d58405167aed = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_cce45e4ad7ba7908c7dd0ef60c457c12 = $(`<div id="html_cce45e4ad7ba7908c7dd0ef60c457c12" style="width: 100.0%; height: 100.0%;">Vijayawada: 74% risk</div>`)[0];
+                popup_d416522e657471a13588d58405167aed.setContent(html_cce45e4ad7ba7908c7dd0ef60c457c12);
+            
+        
+
+        circle_f8cda0be47e7acb0b81358c47dc0675e.bindPopup(popup_d416522e657471a13588d58405167aed)
+        ;
+
+        
+    
+    
+            var circle_0353f99f0a427b9dcb15be4947fd36db = L.circle(
+                [8.8932, 76.6141],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF0000", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 83000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_3d55b0fa4a2e9390728914d69bb967af = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7f8bf126a4a058aa20938fc2730544ab = $(`<div id="html_7f8bf126a4a058aa20938fc2730544ab" style="width: 100.0%; height: 100.0%;">Kollam: 83% risk</div>`)[0];
+                popup_3d55b0fa4a2e9390728914d69bb967af.setContent(html_7f8bf126a4a058aa20938fc2730544ab);
+            
+        
+
+        circle_0353f99f0a427b9dcb15be4947fd36db.bindPopup(popup_3d55b0fa4a2e9390728914d69bb967af)
+        ;
+
+        
+    
+    
+            var circle_decfd81c7281569e9cd72ee968104096 = L.circle(
+                [10.5276, 76.2144],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF0000", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 80000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_04bc77a1ba02cf60a7afcdf7453d7564 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d86473b8e39559627929a9fccac6b1e6 = $(`<div id="html_d86473b8e39559627929a9fccac6b1e6" style="width: 100.0%; height: 100.0%;">Thrissur: 80% risk</div>`)[0];
+                popup_04bc77a1ba02cf60a7afcdf7453d7564.setContent(html_d86473b8e39559627929a9fccac6b1e6);
+            
+        
+
+        circle_decfd81c7281569e9cd72ee968104096.bindPopup(popup_04bc77a1ba02cf60a7afcdf7453d7564)
+        ;
+
+        
+    
+    
+            var circle_c3aa345fc415c12975f69dac23967a65 = L.circle(
+                [26.35, 92.684],
+                {"bubblingMouseEvents": true, "color": "#8B0000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8B0000", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 89000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_3670e6b6fc29f35208ac7803ec938b4e);
+        
+    
+        var popup_9d605c34ff1cbba0a59e59350efb3271 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a6a1b79aed236cff713db37bb5e50958 = $(`<div id="html_a6a1b79aed236cff713db37bb5e50958" style="width: 100.0%; height: 100.0%;">Nagaon: 89% risk</div>`)[0];
+                popup_9d605c34ff1cbba0a59e59350efb3271.setContent(html_a6a1b79aed236cff713db37bb5e50958);
+            
+        
+
+        circle_c3aa345fc415c12975f69dac23967a65.bindPopup(popup_9d605c34ff1cbba0a59e59350efb3271)
+        ;
+
+        
+    
+    
+            feature_group_3670e6b6fc29f35208ac7803ec938b4e.addTo(map_6833884bc5678d6652fe92ab4709af68);
+        
+    
+            var marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf = L.markerClusterGroup(
+                {
+}
+            );
+        
+    
+            var marker_b6158fca78ab8a217ed0de37b13e7d75 = L.marker(
+                [13.0827, 80.2707],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_6c3b376ba7c323af3958b560fb7d9554 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkred",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_798fc8087fc91cf1b6c8b207cc82c125 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_4e1ac862cc35b59f3cfd926162f2679e = $(`<div id="html_4e1ac862cc35b59f3cfd926162f2679e" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: darkred; margin-bottom: 5px'>                 Chennai, Tamil Nadu             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>85/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:darkred'><b>EXTREME</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>450,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_798fc8087fc91cf1b6c8b207cc82c125.setContent(html_4e1ac862cc35b59f3cfd926162f2679e);
+            
+        
+
+        marker_b6158fca78ab8a217ed0de37b13e7d75.bindPopup(popup_798fc8087fc91cf1b6c8b207cc82c125)
+        ;
+
+        
+    
+    
+            marker_b6158fca78ab8a217ed0de37b13e7d75.bindTooltip(
+                `<div>
+                     Chennai - EXTREME Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b6158fca78ab8a217ed0de37b13e7d75.setIcon(icon_6c3b376ba7c323af3958b560fb7d9554);
+            
+    
+            var marker_9fa3998c367a12ed85639a776cb86ef6 = L.marker(
+                [19.076, 72.8777],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_e0dce089899c3102bc942003e9ad8983 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkred",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9902dc4a1616112f071b005334f8ccae = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_0ecc8aa6b8a63296681b94ceb34bb80c = $(`<div id="html_0ecc8aa6b8a63296681b94ceb34bb80c" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: darkred; margin-bottom: 5px'>                 Mumbai, Maharashtra             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>88/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:darkred'><b>EXTREME</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>620,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_9902dc4a1616112f071b005334f8ccae.setContent(html_0ecc8aa6b8a63296681b94ceb34bb80c);
+            
+        
+
+        marker_9fa3998c367a12ed85639a776cb86ef6.bindPopup(popup_9902dc4a1616112f071b005334f8ccae)
+        ;
+
+        
+    
+    
+            marker_9fa3998c367a12ed85639a776cb86ef6.bindTooltip(
+                `<div>
+                     Mumbai - EXTREME Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9fa3998c367a12ed85639a776cb86ef6.setIcon(icon_e0dce089899c3102bc942003e9ad8983);
+            
+    
+            var marker_38e5123990a618c216dca06b40fa15bb = L.marker(
+                [22.5726, 88.3639],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_4a81d38364640ed448da2ba24703174f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_73838220fa13e941b324c0a932e1c536 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_67280a8d115ac40825cdbffb2f252b04 = $(`<div id="html_67280a8d115ac40825cdbffb2f252b04" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: red; margin-bottom: 5px'>                 Kolkata, West Bengal             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>82/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:red'><b>HIGH</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>380,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_73838220fa13e941b324c0a932e1c536.setContent(html_67280a8d115ac40825cdbffb2f252b04);
+            
+        
+
+        marker_38e5123990a618c216dca06b40fa15bb.bindPopup(popup_73838220fa13e941b324c0a932e1c536)
+        ;
+
+        
+    
+    
+            marker_38e5123990a618c216dca06b40fa15bb.bindTooltip(
+                `<div>
+                     Kolkata - HIGH Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_38e5123990a618c216dca06b40fa15bb.setIcon(icon_4a81d38364640ed448da2ba24703174f);
+            
+    
+            var marker_d77425543ca4a9178d7ac301858b003d = L.marker(
+                [26.1445, 91.7362],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_b05e0c55ec0276f8f646d3b966e66f7b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkred",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4c00710da592ab209c40742bedfd1692 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_f81f14c299dc83bcc6a2d054b6304601 = $(`<div id="html_f81f14c299dc83bcc6a2d054b6304601" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: darkred; margin-bottom: 5px'>                 Guwahati, Assam             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>92/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:darkred'><b>EXTREME</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>290,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_4c00710da592ab209c40742bedfd1692.setContent(html_f81f14c299dc83bcc6a2d054b6304601);
+            
+        
+
+        marker_d77425543ca4a9178d7ac301858b003d.bindPopup(popup_4c00710da592ab209c40742bedfd1692)
+        ;
+
+        
+    
+    
+            marker_d77425543ca4a9178d7ac301858b003d.bindTooltip(
+                `<div>
+                     Guwahati - EXTREME Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d77425543ca4a9178d7ac301858b003d.setIcon(icon_b05e0c55ec0276f8f646d3b966e66f7b);
+            
+    
+            var marker_15e39552dfd1660965e56b0433b40720 = L.marker(
+                [9.9312, 76.2673],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_90dd492af42888d8fc09fecd6a73fb34 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkred",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b097dc03b4abcc8ccdf4ff6aeffcd139 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_a43574192b940e89b747ba75a4be8d4d = $(`<div id="html_a43574192b940e89b747ba75a4be8d4d" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: darkred; margin-bottom: 5px'>                 Kochi, Kerala             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>87/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:darkred'><b>EXTREME</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>340,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_b097dc03b4abcc8ccdf4ff6aeffcd139.setContent(html_a43574192b940e89b747ba75a4be8d4d);
+            
+        
+
+        marker_15e39552dfd1660965e56b0433b40720.bindPopup(popup_b097dc03b4abcc8ccdf4ff6aeffcd139)
+        ;
+
+        
+    
+    
+            marker_15e39552dfd1660965e56b0433b40720.bindTooltip(
+                `<div>
+                     Kochi - EXTREME Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_15e39552dfd1660965e56b0433b40720.setIcon(icon_90dd492af42888d8fc09fecd6a73fb34);
+            
+    
+            var marker_57dd9e56d1a359498a3a24bb097ae84a = L.marker(
+                [20.2961, 85.8245],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_a536102991cb9ccb4e877b53397c49ef = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_815c8714df1a5b6ed72f5b462eea544e = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_7f1924f5e8ad34f97d439a6cfab988cc = $(`<div id="html_7f1924f5e8ad34f97d439a6cfab988cc" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: red; margin-bottom: 5px'>                 Bhubaneswar, Odisha             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>80/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:red'><b>HIGH</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>210,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_815c8714df1a5b6ed72f5b462eea544e.setContent(html_7f1924f5e8ad34f97d439a6cfab988cc);
+            
+        
+
+        marker_57dd9e56d1a359498a3a24bb097ae84a.bindPopup(popup_815c8714df1a5b6ed72f5b462eea544e)
+        ;
+
+        
+    
+    
+            marker_57dd9e56d1a359498a3a24bb097ae84a.bindTooltip(
+                `<div>
+                     Bhubaneswar - HIGH Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_57dd9e56d1a359498a3a24bb097ae84a.setIcon(icon_a536102991cb9ccb4e877b53397c49ef);
+            
+    
+            var marker_66a600bbbd7d442d8580d151c1f5047b = L.marker(
+                [25.5941, 85.1376],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_c130859466f73423a70a11b305831fac = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_636f61f5b0d6e5188e2dbe32d81b1c15 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_0970150f7e48ad9348154ec487a839a1 = $(`<div id="html_0970150f7e48ad9348154ec487a839a1" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: red; margin-bottom: 5px'>                 Patna, Bihar             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>78/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:red'><b>HIGH</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>280,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_636f61f5b0d6e5188e2dbe32d81b1c15.setContent(html_0970150f7e48ad9348154ec487a839a1);
+            
+        
+
+        marker_66a600bbbd7d442d8580d151c1f5047b.bindPopup(popup_636f61f5b0d6e5188e2dbe32d81b1c15)
+        ;
+
+        
+    
+    
+            marker_66a600bbbd7d442d8580d151c1f5047b.bindTooltip(
+                `<div>
+                     Patna - HIGH Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_66a600bbbd7d442d8580d151c1f5047b.setIcon(icon_c130859466f73423a70a11b305831fac);
+            
+    
+            var marker_794ca47ac1306b326960a4b90d41d91e = L.marker(
+                [30.3165, 78.0322],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_a7a43b3d20a89f757dd2fe5fb61ba8e7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d6b75fc9f4fdec7bbc346b55dfa908fe = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_5fa2a4cc163454482828d2fce598ffb6 = $(`<div id="html_5fa2a4cc163454482828d2fce598ffb6" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: orange; margin-bottom: 5px'>                 Dehradun, Uttarakhand             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>70/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:orange'><b>MEDIUM</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>95,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_d6b75fc9f4fdec7bbc346b55dfa908fe.setContent(html_5fa2a4cc163454482828d2fce598ffb6);
+            
+        
+
+        marker_794ca47ac1306b326960a4b90d41d91e.bindPopup(popup_d6b75fc9f4fdec7bbc346b55dfa908fe)
+        ;
+
+        
+    
+    
+            marker_794ca47ac1306b326960a4b90d41d91e.bindTooltip(
+                `<div>
+                     Dehradun - MEDIUM Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_794ca47ac1306b326960a4b90d41d91e.setIcon(icon_a7a43b3d20a89f757dd2fe5fb61ba8e7);
+            
+    
+            var marker_ccd5aec6ec98eb92dd1858fe4536ffe3 = L.marker(
+                [21.1702, 72.8311],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_b3871a2b5daf4150699ebdc5996844fa = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7c320ed70afa2cff8f1b8dbf50e9870d = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_72543c6127ca167cc45aac154e1f6fe4 = $(`<div id="html_72543c6127ca167cc45aac154e1f6fe4" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: red; margin-bottom: 5px'>                 Surat, Gujarat             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>75/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:red'><b>HIGH</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>180,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_7c320ed70afa2cff8f1b8dbf50e9870d.setContent(html_72543c6127ca167cc45aac154e1f6fe4);
+            
+        
+
+        marker_ccd5aec6ec98eb92dd1858fe4536ffe3.bindPopup(popup_7c320ed70afa2cff8f1b8dbf50e9870d)
+        ;
+
+        
+    
+    
+            marker_ccd5aec6ec98eb92dd1858fe4536ffe3.bindTooltip(
+                `<div>
+                     Surat - HIGH Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ccd5aec6ec98eb92dd1858fe4536ffe3.setIcon(icon_b3871a2b5daf4150699ebdc5996844fa);
+            
+    
+            var marker_18890a3bc415ab8d67d759e99b57c48c = L.marker(
+                [25.3176, 82.9739],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_fb910c1d81dfe6937ea6a902ccaf1768 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f890bd7123dea58494182aa33b541f46 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_7c6eff2540a065195d6da606d48c16a6 = $(`<div id="html_7c6eff2540a065195d6da606d48c16a6" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: orange; margin-bottom: 5px'>                 Varanasi, Uttar Pradesh             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>72/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:orange'><b>MEDIUM</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>220,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_f890bd7123dea58494182aa33b541f46.setContent(html_7c6eff2540a065195d6da606d48c16a6);
+            
+        
+
+        marker_18890a3bc415ab8d67d759e99b57c48c.bindPopup(popup_f890bd7123dea58494182aa33b541f46)
+        ;
+
+        
+    
+    
+            marker_18890a3bc415ab8d67d759e99b57c48c.bindTooltip(
+                `<div>
+                     Varanasi - MEDIUM Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_18890a3bc415ab8d67d759e99b57c48c.setIcon(icon_fb910c1d81dfe6937ea6a902ccaf1768);
+            
+    
+            var marker_400dd76015438738781aa2c17b6c3f5f = L.marker(
+                [20.4625, 85.883],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_bfd36cb3061f17b4a71da5c84d3f27ea = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_028cebb9f53b5807f8412b5c251d1df3 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_975f84bccea1a35fb9a31b3ab9d953eb = $(`<div id="html_975f84bccea1a35fb9a31b3ab9d953eb" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: red; margin-bottom: 5px'>                 Cuttack, Odisha             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>79/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:red'><b>HIGH</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>195,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_028cebb9f53b5807f8412b5c251d1df3.setContent(html_975f84bccea1a35fb9a31b3ab9d953eb);
+            
+        
+
+        marker_400dd76015438738781aa2c17b6c3f5f.bindPopup(popup_028cebb9f53b5807f8412b5c251d1df3)
+        ;
+
+        
+    
+    
+            marker_400dd76015438738781aa2c17b6c3f5f.bindTooltip(
+                `<div>
+                     Cuttack - HIGH Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_400dd76015438738781aa2c17b6c3f5f.setIcon(icon_bfd36cb3061f17b4a71da5c84d3f27ea);
+            
+    
+            var marker_a52ae18f04f5f9a8b217371e22eb3957 = L.marker(
+                [17.385, 78.4867],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_b9503c2cfd296d5076c5eb959105444e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_91bbed0babd107a3ca65c4a8ef92461a = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_4b5e3e390df5972603a8b3f5f718ba9e = $(`<div id="html_4b5e3e390df5972603a8b3f5f718ba9e" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: orange; margin-bottom: 5px'>                 Hyderabad, Telangana             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>65/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:orange'><b>MEDIUM</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>145,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_91bbed0babd107a3ca65c4a8ef92461a.setContent(html_4b5e3e390df5972603a8b3f5f718ba9e);
+            
+        
+
+        marker_a52ae18f04f5f9a8b217371e22eb3957.bindPopup(popup_91bbed0babd107a3ca65c4a8ef92461a)
+        ;
+
+        
+    
+    
+            marker_a52ae18f04f5f9a8b217371e22eb3957.bindTooltip(
+                `<div>
+                     Hyderabad - MEDIUM Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a52ae18f04f5f9a8b217371e22eb3957.setIcon(icon_b9503c2cfd296d5076c5eb959105444e);
+            
+    
+            var marker_060a9d6769518c7f89ba6a670f7114f3 = L.marker(
+                [26.8467, 80.9462],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_c1b9347d98e1d57634811e70ac614fb2 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d5177798a8ab9151d6559321bb04a287 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_154b36ca9753a217a6cd5e585db59e2d = $(`<div id="html_154b36ca9753a217a6cd5e585db59e2d" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: orange; margin-bottom: 5px'>                 Lucknow, Uttar Pradesh             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>68/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:orange'><b>MEDIUM</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>175,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_d5177798a8ab9151d6559321bb04a287.setContent(html_154b36ca9753a217a6cd5e585db59e2d);
+            
+        
+
+        marker_060a9d6769518c7f89ba6a670f7114f3.bindPopup(popup_d5177798a8ab9151d6559321bb04a287)
+        ;
+
+        
+    
+    
+            marker_060a9d6769518c7f89ba6a670f7114f3.bindTooltip(
+                `<div>
+                     Lucknow - MEDIUM Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_060a9d6769518c7f89ba6a670f7114f3.setIcon(icon_c1b9347d98e1d57634811e70ac614fb2);
+            
+    
+            var marker_a357647d33887200f7ec2dd3ddcf6869 = L.marker(
+                [24.817, 93.9368],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_441999425a4c12d1b5e2a783c7d1bb9e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5b54c2cc7e982cad6887cd55dd52638c = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_63e03e2d1fdfb8444629674a81a8238c = $(`<div id="html_63e03e2d1fdfb8444629674a81a8238c" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: red; margin-bottom: 5px'>                 Imphal, Manipur             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>84/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:red'><b>HIGH</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>85,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_5b54c2cc7e982cad6887cd55dd52638c.setContent(html_63e03e2d1fdfb8444629674a81a8238c);
+            
+        
+
+        marker_a357647d33887200f7ec2dd3ddcf6869.bindPopup(popup_5b54c2cc7e982cad6887cd55dd52638c)
+        ;
+
+        
+    
+    
+            marker_a357647d33887200f7ec2dd3ddcf6869.bindTooltip(
+                `<div>
+                     Imphal - HIGH Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a357647d33887200f7ec2dd3ddcf6869.setIcon(icon_441999425a4c12d1b5e2a783c7d1bb9e);
+            
+    
+            var marker_1a9024cbd3b23bd89fce0c82109902d2 = L.marker(
+                [23.8315, 91.2868],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_e2f88136da6cf4ea0a17ad0f266dd7fa = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5c000df7093f4746def9db38a2cfd799 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_defcd7ded5d55645da297b5da32c859c = $(`<div id="html_defcd7ded5d55645da297b5da32c859c" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: red; margin-bottom: 5px'>                 Agartala, Tripura             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>81/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:red'><b>HIGH</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>92,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_5c000df7093f4746def9db38a2cfd799.setContent(html_defcd7ded5d55645da297b5da32c859c);
+            
+        
+
+        marker_1a9024cbd3b23bd89fce0c82109902d2.bindPopup(popup_5c000df7093f4746def9db38a2cfd799)
+        ;
+
+        
+    
+    
+            marker_1a9024cbd3b23bd89fce0c82109902d2.bindTooltip(
+                `<div>
+                     Agartala - HIGH Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1a9024cbd3b23bd89fce0c82109902d2.setIcon(icon_e2f88136da6cf4ea0a17ad0f266dd7fa);
+            
+    
+            var marker_656480f66f5999e961009b26bec6d779 = L.marker(
+                [25.5788, 91.8933],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_7d317d200658108c23fe0ef530475f58 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkred",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1a2bab39768548df185b60a8fdf06326 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_13aa21ff473071ee0ae292e26e351a7a = $(`<div id="html_13aa21ff473071ee0ae292e26e351a7a" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: darkred; margin-bottom: 5px'>                 Shillong, Meghalaya             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>86/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:darkred'><b>EXTREME</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>78,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_1a2bab39768548df185b60a8fdf06326.setContent(html_13aa21ff473071ee0ae292e26e351a7a);
+            
+        
+
+        marker_656480f66f5999e961009b26bec6d779.bindPopup(popup_1a2bab39768548df185b60a8fdf06326)
+        ;
+
+        
+    
+    
+            marker_656480f66f5999e961009b26bec6d779.bindTooltip(
+                `<div>
+                     Shillong - EXTREME Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_656480f66f5999e961009b26bec6d779.setIcon(icon_7d317d200658108c23fe0ef530475f58);
+            
+    
+            var marker_396085e448f14a078f184d235aa5c994 = L.marker(
+                [16.5062, 80.648],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_5eb61018b6399ca12529d5b6f8ca6276 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9d40c175d0d5a99bd0fa5bfeb346b662 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_440d682829b57f9d122292c41b77db3d = $(`<div id="html_440d682829b57f9d122292c41b77db3d" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: orange; margin-bottom: 5px'>                 Vijayawada, Andhra Pradesh             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>74/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:orange'><b>MEDIUM</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>165,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_9d40c175d0d5a99bd0fa5bfeb346b662.setContent(html_440d682829b57f9d122292c41b77db3d);
+            
+        
+
+        marker_396085e448f14a078f184d235aa5c994.bindPopup(popup_9d40c175d0d5a99bd0fa5bfeb346b662)
+        ;
+
+        
+    
+    
+            marker_396085e448f14a078f184d235aa5c994.bindTooltip(
+                `<div>
+                     Vijayawada - MEDIUM Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_396085e448f14a078f184d235aa5c994.setIcon(icon_5eb61018b6399ca12529d5b6f8ca6276);
+            
+    
+            var marker_7481cd198371e782edf9c4761020bb37 = L.marker(
+                [8.8932, 76.6141],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_536c2cbbf1bc047d26dc4ae6b2101e8b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f240804c3cad76bf5bb06b751aa65ded = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_c734322087f48750ae0fea7d18377d45 = $(`<div id="html_c734322087f48750ae0fea7d18377d45" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: red; margin-bottom: 5px'>                 Kollam, Kerala             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>83/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:red'><b>HIGH</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>155,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_f240804c3cad76bf5bb06b751aa65ded.setContent(html_c734322087f48750ae0fea7d18377d45);
+            
+        
+
+        marker_7481cd198371e782edf9c4761020bb37.bindPopup(popup_f240804c3cad76bf5bb06b751aa65ded)
+        ;
+
+        
+    
+    
+            marker_7481cd198371e782edf9c4761020bb37.bindTooltip(
+                `<div>
+                     Kollam - HIGH Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7481cd198371e782edf9c4761020bb37.setIcon(icon_536c2cbbf1bc047d26dc4ae6b2101e8b);
+            
+    
+            var marker_a01ec5a933497a9c62519dc3b691e12a = L.marker(
+                [10.5276, 76.2144],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_de978d0a861adfebc228a1bd093ace26 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ba5ac6d6cd849344cafe26aabb459f3d = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_643ad5fe049d43a74585f0acc212521c = $(`<div id="html_643ad5fe049d43a74585f0acc212521c" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: red; margin-bottom: 5px'>                 Thrissur, Kerala             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>80/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:red'><b>HIGH</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>142,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_ba5ac6d6cd849344cafe26aabb459f3d.setContent(html_643ad5fe049d43a74585f0acc212521c);
+            
+        
+
+        marker_a01ec5a933497a9c62519dc3b691e12a.bindPopup(popup_ba5ac6d6cd849344cafe26aabb459f3d)
+        ;
+
+        
+    
+    
+            marker_a01ec5a933497a9c62519dc3b691e12a.bindTooltip(
+                `<div>
+                     Thrissur - HIGH Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a01ec5a933497a9c62519dc3b691e12a.setIcon(icon_de978d0a861adfebc228a1bd093ace26);
+            
+    
+            var marker_561e3fdd185e50a520737b0b524f3051 = L.marker(
+                [26.35, 92.684],
+                {
+}
+            ).addTo(marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf);
+        
+    
+            var icon_4a4fc0cffb75f7680385df1a989bf67b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkred",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_dce9909606e23163ac0508d41a0b3b1c = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_29f0a2627aaa8b9d930dc322f70e8c01 = $(`<div id="html_29f0a2627aaa8b9d930dc322f70e8c01" style="width: 100.0%; height: 100.0%;">         <div style='font-family: Arial; width: 200px'>             <h4 style='color: darkred; margin-bottom: 5px'>                 Nagaon, Assam             </h4>             <table style='width:100%; font-size: 12px'>                 <tr><td><b>Risk Score:</b></td><td>89/100</td></tr>                 <tr><td><b>Risk Level:</b></td><td style='color:darkred'><b>EXTREME</b></td></tr>                 <tr><td><b>Population at Risk:</b></td><td>198,000</td></tr>             </table>         </div>         </div>`)[0];
+                popup_dce9909606e23163ac0508d41a0b3b1c.setContent(html_29f0a2627aaa8b9d930dc322f70e8c01);
+            
+        
+
+        marker_561e3fdd185e50a520737b0b524f3051.bindPopup(popup_dce9909606e23163ac0508d41a0b3b1c)
+        ;
+
+        
+    
+    
+            marker_561e3fdd185e50a520737b0b524f3051.bindTooltip(
+                `<div>
+                     Nagaon - EXTREME Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_561e3fdd185e50a520737b0b524f3051.setIcon(icon_4a4fc0cffb75f7680385df1a989bf67b);
+            
+    
+            marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf.addTo(map_6833884bc5678d6652fe92ab4709af68);
+        
+    
+            var layer_control_e401d081b9181c8880c252e9122b7927_layers = {
+                base_layers : {
+                    "Dark Mode" : tile_layer_926ccddf4b6f1b3061f9c7fdfafe794a,
+                    "Light Mode" : tile_layer_95d7942e98096d3ae4e23c1189458170,
+                    "Street Map" : tile_layer_32ea86a162b1c57a47af24147c93471d,
+                    "Satellite" : tile_layer_8a41a1785511b7ba8366d33a99825da5,
+                },
+                overlays :  {
+                    "Flood Risk Heatmap" : heat_map_fc656665b3532c738d4b000fb8d2f12d,
+                    "Risk Zones" : feature_group_3670e6b6fc29f35208ac7803ec938b4e,
+                    "District Markers" : marker_cluster_c0a50297b0ed601ff6b78f56c94d90cf,
+                },
+            };
+            let layer_control_e401d081b9181c8880c252e9122b7927 = L.control.layers(
+                layer_control_e401d081b9181c8880c252e9122b7927_layers.base_layers,
+                layer_control_e401d081b9181c8880c252e9122b7927_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_6833884bc5678d6652fe92ab4709af68);
+
+        
+</script>
+</html>
