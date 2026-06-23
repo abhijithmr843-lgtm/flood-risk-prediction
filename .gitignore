@@ -1,11 +1,26 @@
+# Virtual Environment
 flood_env/
+.floodenv/
+venv/
+env/
+
+# Python cache
 __pycache__/
 *.py[cod]
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment variables - NEVER push API keys
 .env
+
+# Raw data (too large - 1M+ rows)
 data/raw/
-*.tif
-*.tiff
-models/*.pkl
-models/*.h5
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# IDE
 .vscode/settings.json
