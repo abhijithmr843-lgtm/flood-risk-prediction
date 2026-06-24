@@ -46,8 +46,7 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
-
-@st.cache_resource
+@st.cache_data
 def load_map():
     """Load the GIS map (cached for performance)."""
     return create_full_flood_risk_map()
@@ -81,7 +80,13 @@ def main():
             unsafe_allow_html=True
         )
         flood_map = load_map()
-        st_folium(flood_map, width=None, height=600, returned_objects=[])
+st_folium(
+    flood_map,
+    width=None,
+    height=600,
+    returned_objects=[],
+    key="flood_risk_map"
+)
     
     with col2:
         st.markdown(
