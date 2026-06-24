@@ -1,0 +1,15 @@
+ app/main.py                              | 1068 [32m+++++++++++++++[m[31m---------------[m
+ app/pages/analysis_page.py               |  284 [32m++++[m[31m----[m
+ app/pages/map_page.py                    |  204 [32m+++[m[31m---[m
+ app/pages/prediction_page.py             |  360 [32m+++++[m[31m-----[m
+ models/cnn_model.keras                   |  Bin [31m2160008[m -> [32m2160008[m bytes
+ reports/figures/cnn_predictions.png      |  Bin [31m220586[m -> [32m220470[m bytes
+ reports/figures/cnn_training_history.png |  Bin [31m65539[m -> [32m67450[m bytes
+ src/features/feature_engineering.py      |  184 [32m++[m[31m---[m
+ src/models/cnn_model.py                  |  261 [32m++++[m[31m----[m
+ src/satellite/gee_connector.py           |  178 [32m++[m[31m---[m
+ src/satellite/ndvi_calculator.py         |  358 [32m+++++[m[31m-----[m
+ src/satellite/water_extractor.py         |  224 [32m+++[m[31m----[m
+ src/visualization/map_generator.py       |  514 [32m+++++++[m[31m-------[m
+ tests/verify_setup.py                    |  102 [32m+[m[31m--[m
+ 14 files changed, 1881 insertions(+), 1856 deletions(-)

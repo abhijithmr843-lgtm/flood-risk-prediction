@@ -71,29 +71,29 @@ def create_base_map(center_lat=20.5937, center_lon=78.9629, zoom=5):
         tiles=None,
         control_scale=True
     )
-    
+
     # Add multiple tile layer options
     folium.TileLayer(
         'CartoDB dark_matter',
         name='Dark Mode'
     ).add_to(m)
-    
+
     folium.TileLayer(
         'CartoDB positron',
         name='Light Mode'
     ).add_to(m)
-    
+
     folium.TileLayer(
         'OpenStreetMap',
         name='Street Map'
     ).add_to(m)
-    
+
     folium.TileLayer(
         tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
         attr='Esri',
         name='Satellite'
     ).add_to(m)
-    
+
     return m
 
 def add_risk_heatmap(m, df):
@@ -106,7 +106,7 @@ def add_risk_heatmap(m, df):
         [row['lat'], row['lon'], row['risk_score']]
         for _, row in df.iterrows()
     ]
-    
+
     HeatMap(
         heat_data,
         name='Flood Risk Heatmap',
@@ -122,7 +122,7 @@ def add_risk_heatmap(m, df):
             '1.0': 'red'
         }
     ).add_to(m)
-    
+
     return m
 
 def add_district_markers(m, df):
@@ -131,7 +131,7 @@ def add_district_markers(m, df):
     with detailed popup information.
     """
     marker_cluster = MarkerCluster(name='District Markers').add_to(m)
-    
+
     for _, row in df.iterrows():
         # Determine risk category and color
         if row['risk_score'] >= 85:
@@ -146,7 +146,7 @@ def add_district_markers(m, df):
         else:
             color = 'green'
             risk_label = 'LOW'
-        
+
         # Create popup HTML
         popup_html = f"""
         <div style='font-family: Arial; width: 200px'>
@@ -160,14 +160,14 @@ def add_district_markers(m, df):
             </table>
         </div>
         """
-        
+
         folium.Marker(
             location=[row['lat'], row['lon']],
             popup=folium.Popup(popup_html, max_width=250),
             tooltip=f"{row['district']} - {risk_label} Risk",
             icon=folium.Icon(color=color, icon='exclamation-triangle', prefix='fa')
         ).add_to(marker_cluster)
-    
+
     return m
 
 def add_risk_circles(m, df):
@@ -176,7 +176,7 @@ def add_risk_circles(m, df):
     Visual representation of impact radius.
     """
     risk_layer = folium.FeatureGroup(name='Risk Zones')
-    
+
     for _, row in df.iterrows():
         if row['risk_score'] >= 85:
             color = '#8B0000'
@@ -186,10 +186,10 @@ def add_risk_circles(m, df):
             color = '#FFA500'
         else:
             color = '#00FF00'
-        
+
         folium.Circle(
             location=[row['lat'], row['lon']],
-            radius=row['risk_score'] * 1000,  # meters
+            radius=row['risk_score'] * 1000, # meters
             color=color,
             fill=True,
             fill_color=color,
@@ -197,7 +197,7 @@ def add_risk_circles(m, df):
             weight=2,
             popup=f"{row['district']}: {row['risk_score']}% risk"
         ).add_to(risk_layer)
-    
+
     risk_layer.add_to(m)
     return m
 
@@ -242,42 +242,42 @@ def create_full_flood_risk_map():
     flood risk map with all layers.
     """
     print("\n Building GIS Flood Risk Map...")
-    
+
     # Load data
     df = get_india_flood_risk_data()
-    print(f"    Loaded {len(df)} districts")
-    
+    print(f"Loaded {len(df)} districts")
+
     # Create base map
     m = create_base_map()
-    print("    Base map created")
-    
+    print("Base map created")
+
     # Add layers
     m = add_risk_heatmap(m, df)
-    print("    Heatmap layer added")
-    
+    print("Heatmap layer added")
+
     m = add_risk_circles(m, df)
-    print("    Risk circles added")
-    
+    print("Risk circles added")
+
     m = add_district_markers(m, df)
-    print("    District markers added")
-    
+    print("District markers added")
+
     m = add_legend(m)
-    print("    Legend added")
-    
+    print("Legend added")
+
     # Add layer control
     folium.LayerControl(collapsed=False).add_to(m)
-    
-    print("    Map complete!\n")
+
+    print("Map complete!\n")
     return m
 
 if __name__ == "__main__":
     # Build map
     flood_map = create_full_flood_risk_map()
-    
+
     # Save to HTML
     os.makedirs('reports/figures', exist_ok=True)
     output_path = 'reports/figures/india_flood_risk_map.html'
     flood_map.save(output_path)
-    
+
     print(f"Map saved to: {output_path}")
-    print("   Open this file in your browser to view!")
+    print("Open this file in your browser to view!")

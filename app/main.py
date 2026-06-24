@@ -169,9 +169,9 @@ def create_3d_globe():
     flood_cities = pd.DataFrame({
         'city': ['Chennai','Mumbai','Kolkata','Assam',
                  'Kerala','Odisha','Bihar','Uttarakhand'],
-        'lat':  [13.08, 19.08, 22.57, 26.20,
+        'lat': [13.08, 19.08, 22.57, 26.20,
                  10.85, 20.95, 25.09, 30.06],
-        'lon':  [80.27, 72.88, 88.36, 92.94,
+        'lon': [80.27, 72.88, 88.36, 92.94,
                  76.27, 85.09, 85.31, 79.01],
         'risk': [75, 85, 80, 90, 88, 82, 78, 70],
         'size': [18, 22, 20, 25, 23, 21, 18, 16]
@@ -241,9 +241,9 @@ def create_trend_chart():
 
     risk_data = {
         'Chennai': [15,10, 8, 9,20,42,60,78,85,70,45,22],
-        'Mumbai':  [10, 8, 5, 7,18,72,88,90,75,32,18,12],
-        'Assam':   [40,32,42,58,72,88,92,88,75,52,42,36],
-        'Kerala':  [20,16,12,18,38,70,85,88,80,60,42,25],
+        'Mumbai': [10, 8, 5, 7,18,72,88,90,75,32,18,12],
+        'Assam': [40,32,42,58,72,88,92,88,75,52,42,36],
+        'Kerala': [20,16,12,18,38,70,85,88,80,60,42,25],
     }
 
     colors = ['#4fc3f7','#ff9800','#f44336','#00c853']
@@ -322,9 +322,9 @@ def create_risk_gauge(value=65, title="Risk Level"):
             'bgcolor': '#1a2f5e',
             'bordercolor': '#3a6abc',
             'steps': [
-                {'range': [0,  30],  'color': '#003300'},
-                {'range': [30, 60],  'color': '#332200'},
-                {'range': [60, 80],  'color': '#330000'},
+                {'range': [0, 30], 'color': '#003300'},
+                {'range': [30, 60], 'color': '#332200'},
+                {'range': [60, 80], 'color': '#330000'},
                 {'range': [80, 100], 'color': '#1a0000'},
             ],
             'threshold': {
@@ -420,7 +420,7 @@ def render_sidebar():
             &nbsp; GEE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Connected<br>
             &nbsp; Dashboard &nbsp;&nbsp; Running<br>
             <div style='color:#555; font-size:0.72rem; margin-top:10px'>
-                {datetime.now().strftime('%d %b %Y  %H:%M:%S')}
+                {datetime.now().strftime('%d %b %Y %H:%M:%S')}
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -435,7 +435,7 @@ def main():
     st.markdown("""
     <div class='hero-title'>FLOOD RISK PREDICTION SYSTEM</div>
     <div class='hero-subtitle'>
-        AI-POWERED  |  SENTINEL-2 SATELLITE  |  REAL-TIME ANALYTICS
+        AI-POWERED | SENTINEL-2 SATELLITE | REAL-TIME ANALYTICS
     </div>
     """, unsafe_allow_html=True)
 
@@ -454,11 +454,11 @@ def main():
     # Stats
     col1, col2, col3, col4, col5 = st.columns(5)
     stats = [
-        ("3",          "AI Models"),
-        ("705,851",    "Training Samples"),
+        ("3", "AI Models"),
+        ("705,851", "Training Samples"),
         ("Sentinel-2", "Satellite Source"),
-        ("69.62%",     "Best Accuracy"),
-        ("8",          "Cities Monitored"),
+        ("69.62%", "Best Accuracy"),
+        ("8", "Cities Monitored"),
     ]
     for col, (value, label) in zip(
             [col1,col2,col3,col4,col5], stats):
@@ -482,17 +482,17 @@ def main():
             unsafe_allow_html=True
         )
         st.caption("Hover over circles to see risk levels")
-        
+
         flood_cities = pd.DataFrame({
             'city': ['Chennai','Mumbai','Kolkata','Assam',
                      'Kerala','Odisha','Bihar','Uttarakhand'],
-            'lat':  [13.08, 19.08, 22.57, 26.20,
+            'lat': [13.08, 19.08, 22.57, 26.20,
                      10.85, 20.95, 25.09, 30.06],
-            'lon':  [80.27, 72.88, 88.36, 92.94,
+            'lon': [80.27, 72.88, 88.36, 92.94,
                      76.27, 85.09, 85.31, 79.01],
             'risk': [75, 85, 80, 90, 88, 82, 78, 70],
         })
-        
+
         fig_map = px.scatter_mapbox(
             flood_cities,
             lat='lat',
@@ -513,7 +513,7 @@ def main():
             labels={'risk': 'Flood Risk %'},
             height=450
         )
-        
+
         fig_map.update_layout(
             paper_bgcolor='#0a1628',
             margin=dict(l=0, r=0, t=0, b=0),
@@ -525,7 +525,7 @@ def main():
                 tickfont=dict(color='white')
             )
         )
-        
+
         st.plotly_chart(fig_map, use_container_width=True)
     with col2:
         st.markdown(
