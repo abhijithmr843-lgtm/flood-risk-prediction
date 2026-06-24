@@ -46,10 +46,13 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
+
 @st.cache_data
 def load_map():
     """Load the GIS map (cached for performance)."""
     return create_full_flood_risk_map()
+
 
 def main():
     st.markdown(
@@ -58,44 +61,43 @@ def main():
         unsafe_allow_html=True
     )
     st.caption("Interactive heatmap of flood-prone districts across India")
-    
+
     st.divider()
-    
+
     df = get_india_flood_risk_data()
-    
-    # Summary stats
+
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Districts Monitored", len(df))
     col2.metric("Avg Risk Score", f"{df['risk_score'].mean():.1f}")
     col3.metric("Highest Risk", df.loc[df['risk_score'].idxmax(), 'district'])
     col4.metric("Total Population at Risk", f"{df['population_affected'].sum():,}")
-    
+
     st.divider()
-    
+
     col1, col2 = st.columns([3, 1])
-    
+
     with col1:
         st.markdown(
             "<div class='section-title'>Interactive Heatmap</div>",
             unsafe_allow_html=True
         )
         flood_map = load_map()
-st_folium(
-    flood_map,
-    width=None,
-    height=600,
-    returned_objects=[],
-    key="flood_risk_map"
-)
-    
+        st_folium(
+            flood_map,
+            width=None,
+            height=600,
+            returned_objects=[],
+            key="flood_risk_map"
+        )
+
     with col2:
         st.markdown(
             "<div class='section-title'>Top 5 Risk Districts</div>",
             unsafe_allow_html=True
         )
-        
+
         top5 = df.nlargest(5, 'risk_score')
-        
+
         for _, row in top5.iterrows():
             if row['risk_score'] >= 85:
                 color = '#f44336'
@@ -103,7 +105,7 @@ st_folium(
                 color = '#ff9800'
             else:
                 color = '#4fc3f7'
-            
+
             st.markdown(f"""
             <div class='district-card'>
                 <div style='color:{color}; font-weight:bold; font-size:1rem'>
@@ -120,19 +122,19 @@ st_folium(
                 </div>
             </div>
             """, unsafe_allow_html=True)
-    
+
     st.divider()
-    
-    # Full data table
+
     with st.expander("View All District Data"):
         display_df = df.sort_values('risk_score', ascending=False)
-        display_df.columns = ['District', 'State', 'Latitude', 'Longitude', 
+        display_df.columns = ['District', 'State', 'Latitude', 'Longitude',
                                 'Risk Score', 'Population Affected']
         st.dataframe(
             display_df,
             use_container_width=True,
             hide_index=True
         )
+
 
 if __name__ == "__main__":
     main()
